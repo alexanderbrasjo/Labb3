@@ -1,0 +1,172 @@
+﻿<Window x:Class="Labb3.CreateNewQuizWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labb3"
+        mc:Ignorable="d" FontFamily="Gill Sans"
+        Title="CreateNewQuizWindow" Height="500" Width="600" Background="Aquamarine">
+    <Grid x:Name="CreateNewQuizGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock 
+            Grid.Column="1" 
+            Grid.Row="1"
+            Grid.ColumnSpan="5"
+            Text="QUIZGAME"
+            FontSize="48"
+            FontWeight="Bold"
+            HorizontalAlignment="Center"/>
+        <TextBlock 
+            x:Name="TextBlockQuizName"
+            Grid.Column="1"
+            Grid.Row="2"
+            Grid.ColumnSpan="5"
+            Text="WHAT WOULD YOU LIKE TO NAME YOUR QUIZ?"
+            FontSize="18"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"
+            Margin="0,20,0,0"/>
+        <TextBox 
+            x:Name="QuizName" 
+            Grid.Column="3"
+            Grid.Row="3"
+            Height="25"/>
+        <TextBlock 
+            Grid.Column="1"
+            Grid.Row="4"
+            Grid.ColumnSpan="5"
+            Text="WHAT CATEGORY?"
+            FontSize="18"
+            FontWeight="DemiBold"        
+            HorizontalAlignment="Center"/>
+        <TextBox 
+            x:Name="CategoryName"
+            Grid.Column="3"
+            Grid.Row="5"
+            Height="25"/>
+        <TextBlock 
+            Grid.Column="1"
+            Grid.Row="6"
+            Grid.ColumnSpan="5"
+            Text="INPUT YOUR QUESTION HERE!"
+            FontSize="18"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"/>
+        <TextBox 
+            x:Name="QuestionStatement"
+            Grid.Column="1"
+            Grid.Row="7"
+            Height="25"      
+            Grid.ColumnSpan="5"/>
+        <TextBlock 
+            Grid.Column="1"
+            Grid.Row="8"
+            Text="INPUT ANSWER 1"
+            FontSize="14"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"/>
+        <TextBlock 
+            Grid.Column="3"
+            Grid.Row="8"
+            Text="INPUT ANSWER 2"
+            FontSize="14"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"/>
+        <TextBlock 
+            Grid.Column="5"
+            Grid.Row="8"
+            Text="INPUT ANSWER 3"
+            FontSize="14"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"/>
+        <TextBox
+            x:Name="Answer1"
+            Grid.Column="1"
+            Grid.Row="9"
+            Height="25"/>
+        <TextBox 
+            x:Name="Answer2"
+            Grid.Column="3"
+            Grid.Row="9"
+            Height="25"/>
+        <TextBox
+            x:Name="Answer3"
+            Grid.Column="5"
+            Grid.Row="9"
+            Height="25"/>
+        <CheckBox 
+           x:Name="Checkbox1"
+           Grid.Column="1"
+           Grid.Row="10"
+           Height="15"
+           Width="15"/>
+        <CheckBox 
+           x:Name="Checkbox2"
+           Grid.Column="3"
+           Grid.Row="10"
+           Height="15"
+           Width="15"/>
+        <CheckBox 
+           x:Name="Checkbox3"
+           Grid.Column="5"
+           Grid.Row="10"
+           Height="15"
+           Width="15"/>
+        <TextBlock 
+           Grid.Column="1"
+           Grid.Row="11"
+           Grid.ColumnSpan="5"
+           Text="CHECK IN THE CORRECT ANSWER!"
+           FontSize="14"
+           FontWeight="DemiBold"
+           HorizontalAlignment="Center"/>
+        <Button 
+            x:Name="btnSaveQuestion"
+            Grid.Column="3"
+            Grid.Row="12"
+            Content="SAVE QUESTION"
+            FontSize="18"
+            Margin="0,10,0,0"
+            Click="btnSaveQuestion_Click"/>
+        <Button x:Name="btnSaveQuiz"
+            Grid.Column="3"
+            Grid.Row="13"
+            Content="SAVE QUIZ"
+            FontSize="18"
+            Margin="0,10,0,0" Click="btnSaveQuiz_Click"/>
+        <Button x:Name="btnMainMenu"
+            Grid.Column="3"
+            Grid.Row="14"
+            Content="MAIN MENU"
+            FontSize="18"
+            Margin="0,10,0,0" Click="btnMainMenu_Click"/>
+    </Grid>
+</Window>
