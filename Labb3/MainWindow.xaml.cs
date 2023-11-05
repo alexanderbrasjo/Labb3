@@ -42,8 +42,6 @@ namespace Labb3
         {
             CreateNewQuizWindow createNewQuizWindow = new CreateNewQuizWindow();
             createNewQuizWindow.Show();
-            createNewQuizWindow.Closed += CreateNewQuizWindow_Closed;
-            this.Hide();
         }
 
         private void btnStartNewQuiz_Click(object sender, RoutedEventArgs e)
@@ -56,17 +54,10 @@ namespace Labb3
         {
             Environment.Exit(0);
         }
-        private void CreateNewQuizWindow_Closed(object sender, EventArgs e)
-        {
-            // Show the MainWindow when the new window is closed
-            this.Show();
-        }
-
         private void btnEditQuiz_Click(object sender, RoutedEventArgs e)
         {
             EditQuizWindow editQuizWindow = new EditQuizWindow();
             editQuizWindow.Show();
-            
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3"
         mc:Ignorable="d" FontFamily="Gill Sans"
-        Title="EditQuizWindow" Height="550" Width="600" Background="Aquamarine">
+        Title="EditQuizWindow" Height="550" Width="650" Background="Aquamarine">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="LightGray"/>
@@ -143,20 +143,13 @@
             Content="DELETE QUIZ"
             Margin="0,10,0,0"
             Style="{StaticResource RoundedButtonStyle}" Click="btnDeleteQuiz_Click"/>
-        <Button
-            x:Name="btnSave"
-            Grid.Column="3"
-            Grid.Row="9"
-            FontSize="22"
-            FontWeight="DemiBold"
-            Content="SAVE"
-            Margin="0,10,0,0"
-            Style="{StaticResource RoundedButtonStyle}"/>
+        
         <Button
             x:Name="btnMainMenu"
-            Grid.Column="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
             Grid.Row="10"
-            FontSize="22"
+            FontSize="26"
             FontWeight="DemiBold"
             Content="MAIN MENU"
             Margin="0,10,0,0" 

@@ -32,6 +32,12 @@ namespace Labb3
         private void cbbQuizChoose_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedQuiz = (Quiz)cbbQuizChoose.SelectedItem;
+
+            if(selectedQuiz == null)
+            {
+                ListBoxChooseQuestion.ItemsSource = null;
+                return;
+            }
             if(selectedQuiz.Questions == null)
             {
                 ListBoxChooseQuestion.ItemsSource = null;
@@ -67,7 +73,7 @@ namespace Labb3
             Game.DeleteQuiz(selectedQuiz);
             MessageBox.Show("Deleted Quiz");
             cbbQuizChoose.ItemsSource = null;
-            cbbQuizChoose.ItemsSource = selectedQuiz.Questions;
+            cbbQuizChoose.ItemsSource = Game.listOfMyQuizes;
             ListBoxChooseQuestion.ItemsSource = null;
         }
     }

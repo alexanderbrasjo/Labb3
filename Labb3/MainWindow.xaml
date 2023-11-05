@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Labb3"
         xmlns:UC="clr-namespace:Labb3.UserControls"
         mc:Ignorable="d" FontFamily="Gill Sans"
-        Title="MainWindow" Height="550" Width="600" Background="Aquamarine">
+        Title="MainWindow" Height="550" Width="650" Background="Aquamarine">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="LightGray"/>
