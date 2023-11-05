@@ -22,20 +22,12 @@ namespace Labb3
     
     public partial class MainWindow : Window
     {
-
-        
         public MainWindow()
         {
-            //MessageBox.Show(Game.filePath);
-            //MessageBox.Show(Game.projectDir);
             InitializeComponent();
             Game.Init();
             Game.Load();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            Quiz quiz = new Quiz();
-            //quiz.GenerateQuestions();
-            //quiz = Quiz.CreateRandomQuiz();
-            //Game.ReadAllQuestionWithJSON();
         }
 
         private void btnCreateNewQuiz_Click(object sender, RoutedEventArgs e)

@@ -24,10 +24,8 @@ namespace Labb3
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            //Quiz tempQuiz = Quiz.CreateRandomQuiz();
             cbbQuizChoose.ItemsSource = Game.GetAllQuizes();
             lbxCategoryChoose.ItemsSource = Game.categories;
-            //DataContext = this;
         }
 
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
@@ -62,6 +60,7 @@ namespace Labb3
                 Game.activeQuiz = Quiz.CreateRandomQuizByQuestionCategory(chosenCategories);
             }
 
+            Game.activeQuiz.ShuffleQuestions();
             PlayWindow playWindow = new PlayWindow();
             playWindow.Show();
         }
@@ -84,7 +83,6 @@ namespace Labb3
             {
                 btnStartQuiz.IsEnabled = false;
             }
-            
         }
     }
 }

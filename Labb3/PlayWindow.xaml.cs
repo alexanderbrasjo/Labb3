@@ -22,13 +22,11 @@ namespace Labb3
     /// </summary>
     public partial class PlayWindow : Window
     {
-        //public static Quiz activeQuiz = new Quiz();
         public static Question? currentQuestion;
         public int correctAnswers { get; set; } = 0;
         public int questionIndex { get; set; } = 0;
         public string quizStatus { get; set; } = string.Empty;
         public double percentage { get; set; } = 100;
-        //KOLLA PÅ CORRECTANSWERS OCH PROCENTEN
 
         
         
@@ -36,7 +34,6 @@ namespace Labb3
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            ProgressBar.Maximum = Game.activeQuiz.Questions.Count;
 
             if(Game.activeQuiz.Questions.Count == 0)
             {
@@ -47,12 +44,11 @@ namespace Labb3
             {
                 currentQuestion = Game.activeQuiz.GetQuestion(questionIndex);
             }
+
+            ProgressBar.Maximum = Game.activeQuiz.Questions.Count;
             this.DataContext = currentQuestion;
             CorrectQuestions.Text = QuizStatus();
             PercentageQuestions.Text = QuizPercentage();
-            //QuestionImage.Source = GetQuestionImagePath();
-            
-
         }
 
         private void btnStopPlaying_Click(object sender, RoutedEventArgs e)
@@ -101,7 +97,6 @@ namespace Labb3
 
         private string? GetQuestionImagePath()
         {
-            
             if (currentQuestion != null && currentQuestion.Image != null)
             {
                 return System.IO.Path.Combine(Game.imageDir, currentQuestion.Image);
@@ -127,7 +122,6 @@ namespace Labb3
             {
                 return 0;
             }
-            
         }
     }
 }

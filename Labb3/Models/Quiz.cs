@@ -156,6 +156,22 @@ namespace Labb3.Models
 
             return tempQuiz;
         }
+        public void ShuffleQuestions()
+        {
+            Random random = new Random();
+
+            List<Question> shuffledQuestions = new List<Question>();
+            List<Question> questions = this.Questions.ToList();
+
+            for(int i = 0; i < this.Questions.Count; i++)
+            {
+                int rand = random.Next(0, questions.Count);
+                shuffledQuestions.Add(questions[rand]);
+                questions.RemoveAt(rand);
+            }
+
+            this.Questions = shuffledQuestions;
+        }
 
     }
 }

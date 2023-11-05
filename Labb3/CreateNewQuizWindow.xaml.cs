@@ -20,7 +20,6 @@ namespace Labb3
     /// </summary>
     public partial class CreateNewQuizWindow : Window
     {
-        //Lägger bara till en fråga
         
         List<Question> questions = new List<Question>();
         public CreateNewQuizWindow()
@@ -44,8 +43,6 @@ namespace Labb3
                 MessageBox.Show("That Quiz name is already used!, please choose another title");
                 return;
             }
-
-            
             
             
 
@@ -72,11 +69,8 @@ namespace Labb3
                     MessageBox.Show("Check in the correct answer (You can only check in one box!)");
                     return;
                 }
-                
-                
 
                 questions.Add( new Question(CategoryName.Text, QuestionStatement.Text, new string[3] { Answer1.Text, Answer2.Text, Answer3.Text }, correctAnswer));
-
                
                 MessageBox.Show("Question was created!");
 
@@ -89,14 +83,7 @@ namespace Labb3
                 Checkbox1.IsChecked = false;
                 Checkbox2.IsChecked = false;
                 Checkbox3.IsChecked = false;
-
-
-
             }
-            
-
-
-            //tempQuiz.AddQuestion(QuestionStatement.Text, )
         }
 
         private void btnCreateQuiz_Click(object sender, RoutedEventArgs e)
@@ -109,30 +96,17 @@ namespace Labb3
                 Game.AddQuiz(quiz);
                 MessageBox.Show($"Quiz {quiz.Title} Created!");
                 QuizName.Text = string.Empty;
-
             }
             else
             {
                 MessageBox.Show("Questions needed, not saved!");
             }
-            // KOLLA PÅ DETTA
-            //activeQuiz = new Quiz(QuizName.Text, CategoryName.Text);
-
-            //if (Game.listOfQuizes.Contains(activeQuiz))
-            //{
-            //    MessageBox.Show("A quiz with that name already exist, please choose another name!");
-            //}
-            //else
-            //{
-            //    Game.listOfQuizes.Add(activeQuiz);
-            //    MessageBox.Show("Quiz created!");
-            //}
+            
         }
 
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            
         }
         
     }

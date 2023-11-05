@@ -26,7 +26,6 @@ namespace Labb3
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             cbbQuizChoose.ItemsSource = Game.listOfMyQuizes;
-            
         }
 
         private void cbbQuizChoose_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -51,7 +50,6 @@ namespace Labb3
         private void ListBoxChooseQuestion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBoxChooseQuestion.ItemsSource = selectedQuiz.Questions;
-            //Game.activeQuiz = (Question)ListBoxChooseQuestion.SelectedItem;
         }
 
         private void btnDeleteQuestion_Click(object sender, RoutedEventArgs e)
