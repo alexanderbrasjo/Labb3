@@ -1,6 +1,7 @@
 ﻿using Labb3.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,12 @@ namespace Labb3
     /// </summary>
     public partial class PlayWindow : Window
     {
-        public static Quiz activeQuiz = new Quiz();
-        public static Question currentQuestion;
+        //public static Quiz activeQuiz = new Quiz();
+        public static Question? currentQuestion;
         public int correctAnswers { get; set; } = 0;
         public int questionIndex { get; set; } = 0;
         public string quizStatus { get; set; } = string.Empty;
+        public double percentage { get; set; } = 100;
         //KOLLA PÅ CORRECTANSWERS OCH PROCENTEN
 
         
@@ -33,9 +35,23 @@ namespace Labb3
         public PlayWindow()
         {
             InitializeComponent();
-            currentQuestion = activeQuiz.GetRandomQuestion();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            ProgressBar.Maximum = Game.activeQuiz.Questions.Count;
+
+            if(Game.activeQuiz.Questions.Count == 0)
+            {
+                Game.activeQuiz = Quiz.CreateRandomQuiz();
+                currentQuestion = Game.activeQuiz.GetQuestion(questionIndex);
+            }
+            else
+            {
+                currentQuestion = Game.activeQuiz.GetQuestion(questionIndex);
+            }
             this.DataContext = currentQuestion;
-            quizStatus = QuizStatus();
+            CorrectQuestions.Text = QuizStatus();
+            PercentageQuestions.Text = QuizPercentage();
+            //QuestionImage.Source = GetQuestionImagePath();
+            
 
         }
 
@@ -44,65 +60,74 @@ namespace Labb3
             this.Close();
         }
 
-        private void btnAnswer1_Click(object sender, RoutedEventArgs e)
+        private void AnswerButton_Click(object sender, RoutedEventArgs e)
         {
-            if(currentQuestion.CorrectAnswer == 0)
+            Button button = (Button)sender;
+
+            int selectedAnswerIndex = int.Parse(button.Tag.ToString());
+
+            if(questionIndex == 10)
             {
-                MessageBox.Show("Correct!");
+                MessageBox.Show("You have already answered all questions! Good Job");
+                return;
+            }
+
+            if (currentQuestion.CorrectAnswer == selectedAnswerIndex)
+            {
                 correctAnswers++;
-                ProgressBar.Value += 10;
+            }
+           
+            questionIndex++;
+
+            if(Game.activeQuiz.GetQuestion(questionIndex) != null)
+            {
+                currentQuestion = Game.activeQuiz.GetQuestion(questionIndex);
             }
             else
             {
-                MessageBox.Show("Sorry, that was not the right answer!");
+                QuestionStatement.Text = "YOU ANSWERED ALL QUESTIONS!";
+                btnAnswer1.Visibility = Visibility.Hidden;
+                btnAnswer1.Content = "";
+                btnAnswer2.Visibility = Visibility.Hidden;
+                btnAnswer2.Content = "";
+                btnAnswer3.Visibility = Visibility.Hidden;
+                btnAnswer3.Content = "";
             }
-            activeQuiz.RemoveQuestion(0);
-            currentQuestion = activeQuiz.GetRandomQuestion();
-            questionIndex++;
+            ProgressBar.Value = questionIndex;
             this.DataContext = currentQuestion;
-            quizStatus = QuizStatus();
+            CorrectQuestions.Text = QuizStatus();
+            PercentageQuestions.Text = QuizPercentage();
         }
 
-        private void btnAnswer2_Click(object sender, RoutedEventArgs e)
+        private string? GetQuestionImagePath()
         {
-            if (currentQuestion.CorrectAnswer == 1)
+            
+            if (currentQuestion != null && currentQuestion.Image != null)
             {
-                MessageBox.Show("Correct!");
-                correctAnswers++;
-                ProgressBar.Value += 10;
+                return System.IO.Path.Combine(Game.imageDir, currentQuestion.Image);
+                
             }
-            else
-            {
-                MessageBox.Show("Sorry, that was not the right answer!");
-            }
-            activeQuiz.RemoveQuestion(0);
-            currentQuestion = activeQuiz.GetRandomQuestion();
-            questionIndex++;
-            this.DataContext = currentQuestion;
-            quizStatus = QuizStatus();
-        }
-
-        private void btnAnswer3_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentQuestion.CorrectAnswer == 2)
-            {
-                MessageBox.Show("Correct!");
-                correctAnswers++;
-                ProgressBar.Value += 10;
-            }
-            else
-            {
-                MessageBox.Show("Sorry, that was not the right answer!");
-            }
-            activeQuiz.RemoveQuestion(0);
-            currentQuestion = activeQuiz.GetRandomQuestion();
-            questionIndex++;
-            this.DataContext = currentQuestion;
-            quizStatus = QuizStatus();
+            return null;
         }
         private string QuizStatus()
         {
             return $"Correct answers: {correctAnswers} / {questionIndex}";
+        }
+        private string QuizPercentage()
+        {
+            return $"Percentage: {Convert.ToInt32(CountPercentage())} %";
+        }
+        private double CountPercentage()
+        {
+            if(questionIndex != 0)
+            {
+                return Convert.ToDouble(correctAnswers) / questionIndex * 100;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
     }
 }

@@ -5,7 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3"
         mc:Ignorable="d" FontFamily="Gill Sans"
-        Title="CreateNewQuizWindow" Height="500" Width="600" Background="Aquamarine">
+        Title="CreateNewQuizWindow" Height="550" Width="600" Background="Aquamarine">
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="SkyBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="CreateNewQuizGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -35,7 +60,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-
+        
         <TextBlock 
             Grid.Column="1" 
             Grid.Row="1"
@@ -149,24 +174,32 @@
            FontWeight="DemiBold"
            HorizontalAlignment="Center"/>
         <Button 
-            x:Name="btnSaveQuestion"
-            Grid.Column="3"
+            x:Name="btnCreateQuestion"
+            Grid.Column="2"
             Grid.Row="12"
-            Content="SAVE QUESTION"
-            FontSize="18"
+            Grid.ColumnSpan="3"
+            Content="CREATE QUESTION"
+            FontSize="16"
             Margin="0,10,0,0"
-            Click="btnSaveQuestion_Click"/>
-        <Button x:Name="btnSaveQuiz"
-            Grid.Column="3"
+            Style="{StaticResource RoundedButtonStyle}"
+            Click="btnCreateQuestion_Click"/>
+        <Button x:Name="btnCreateQuiz"
+            Grid.Column="2"
             Grid.Row="13"
-            Content="SAVE QUIZ"
-            FontSize="18"
-            Margin="0,10,0,0" Click="btnSaveQuiz_Click"/>
+            Grid.ColumnSpan="3"
+            Content="CREATE QUIZ"
+            FontSize="16"
+            Margin="0,10,0,0"
+            Style="{StaticResource RoundedButtonStyle}"
+            Click="btnCreateQuiz_Click"/>
         <Button x:Name="btnMainMenu"
-            Grid.Column="3"
+            Grid.Column="2"
             Grid.Row="14"
+            Grid.ColumnSpan="3"
             Content="MAIN MENU"
-            FontSize="18"
-            Margin="0,10,0,0" Click="btnMainMenu_Click"/>
+            FontSize="16"
+            Margin="0,10,0,0" 
+            Style="{StaticResource RoundedButtonStyle}"    
+            Click="btnMainMenu_Click"/>
     </Grid>
 </Window>

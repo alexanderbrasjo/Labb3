@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,22 +14,36 @@ namespace Labb3.Models
 {
     public class Game
     {
-        public static List<Question> listOfAllQuestions { get; set; } = new List<Question>();
-        public static List<Quiz> listOfQuizes { get; set; } = new List<Quiz>();
+        public static List<Question>? listOfAllQuestions { get; set; } = new List<Question>();
+        public static List<Quiz>? listOfMyQuizes { get; set; } = new List<Quiz>();
+        public static List<Quiz>? listOfDefaultQuizes { get; set; } = new List<Quiz>();
+        public static Quiz? activeQuiz { get; set; } = new Quiz();
+        public static HashSet<string> categories { get; set; } = new HashSet<string>();
         public static List<string> selectedCategories { get; set; } = new List<string>();
-        
+
+        public static string filePath = Assembly.GetExecutingAssembly().Location;
+        public static string projectDir = Path.GetDirectoryName(filePath);
+        public static string dataDir = Path.Combine(projectDir, "Data");
+        public static string imageDir = Path.Combine(projectDir, "Images");
+        public static string defaultQuizesPath = Path.Combine(dataDir, "defaultQuizes.json");
+        public static string localData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"QuizGame");
+        public static string myQuizesFilePath = Path.Combine(localData, "myQuizes.json");
 
 
 
-
-
-        public static void AddQuiz(Quiz quiz)
+        public static List<Quiz> GetAllQuizes()
         {
-            listOfQuizes.Add(quiz);
+            List<Quiz> copyOfList1 = listOfMyQuizes.ToList();
+            List<Quiz> copyOfList2 = listOfDefaultQuizes.ToList();
+
+            List<Quiz> combinedList = copyOfList1.Concat(copyOfList2).ToList();
+
+            return combinedList;
         }
+       
         public static bool CheckIfQuizExists(string title)
         {
-            foreach(var quiz in listOfQuizes)
+            foreach(var quiz in listOfMyQuizes)
             {
                 if(quiz.Title == title)
                 {
@@ -47,24 +63,67 @@ namespace Labb3.Models
             }
             return false;
         }
+        public static async void DeleteQuiz(Quiz quiz)
+        {
+            listOfMyQuizes.Remove(quiz);
+
+            string json = JsonConvert.SerializeObject(listOfMyQuizes, Newtonsoft.Json.Formatting.Indented);
+
+            try
+            {
+                await File.WriteAllTextAsync(Game.myQuizesFilePath, json);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show("Quiz deleted, Could not save to file!");
+            }
+
+        }
+        public static async void AddQuiz(Quiz quiz)
+        {
+            listOfMyQuizes.Add(quiz);
+
+            string json = JsonConvert.SerializeObject(listOfMyQuizes, Newtonsoft.Json.Formatting.Indented);
+
+            try
+            {
+                await File.WriteAllTextAsync(Game.myQuizesFilePath, json);
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show("Quiz added, Could not save to file!");
+            }
+
+        }
+        public async static void Init()
+        {
+            if (!File.Exists(localData))
+            {
+                Directory.CreateDirectory(localData);
+            }
+
+            if (!File.Exists(myQuizesFilePath))
+            {
+                await File.WriteAllTextAsync(myQuizesFilePath, "[]");
+            }
+        }
+        public static void Load()
+        {
+            LoadAllQuestions();
+            LoadCategories();
+            LoadDefaultQuizes();
+            LoadMyQuizes();
+        }
         public static async void LoadAllQuestions()
         {
-            string directoryName = @".\\QuizGame";
-            string fileName = "questions.json";
-            string directoryFilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + directoryName;
-            
-
-            string filepath = Path.Combine(directoryFilePath, fileName);
-
-            List<Question> questions = new List<Question>();
+            string filepath = Path.Combine(dataDir, "questions.json");
 
             try
             {
                 if (File.Exists(filepath))
                 {
                     string json =  await File.ReadAllTextAsync(filepath);
-                    questions = JsonConvert.DeserializeObject<List<Question>>(json);
-                    Game.listOfAllQuestions = questions;
+                    listOfAllQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
                 }
                 else
                 {
@@ -75,11 +134,67 @@ namespace Labb3.Models
             {
                 MessageBox.Show("An error occured" + ex.Message);
             }
-        }
-        public async void LoadAllQuizes()
-        {
 
         }
+        public static async void LoadCategories()
+        {
+            string filepath = Path.Combine(dataDir, "questions.json");
+
+            try
+            {
+                if (File.Exists(filepath))
+                {
+                    string json = await File.ReadAllTextAsync(filepath);
+                    List<Question> listOfAllQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
+
+                    foreach (Question question in listOfAllQuestions)
+                    {
+                        categories.Add(question.Category);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("File does not exist");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured" + ex.Message);
+            }
+           
+        }
+        public static async void LoadDefaultQuizes()
+        {
+            string json = await File.ReadAllTextAsync(defaultQuizesPath);
+            listOfDefaultQuizes = JsonConvert.DeserializeObject<List<Quiz>>(json);
+        }
+        public static async void LoadMyQuizes()
+        {
+            string json = await File.ReadAllTextAsync(myQuizesFilePath);
+            listOfMyQuizes = JsonConvert.DeserializeObject<List<Quiz>>(json);
+        }
+        //public async void SaveAllQuestions()
+        //{
+        //    string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        //    string directoryName = "QuizGame";
+
+        //    string fileName = "questions.json";
+
+        //    string directoryFilePath = Path.Combine(directoryPath, directoryName);
+        //    string filePath = Path.Combine(directoryFilePath, fileName);
+
+        //    string json = JsonConvert.SerializeObject(Questions, Newtonsoft.Json.Formatting.Indented);
+
+        //    try
+        //    {
+        //        Directory.CreateDirectory(directoryFilePath);
+        //        await File.WriteAllTextAsync(filePath, json);
+        //    }
+        //    catch (IOException e)
+        //    {
+        //        MessageBox.Show("An error occurred: " + e.Message);
+        //    }
+        //}
 
     }
 }

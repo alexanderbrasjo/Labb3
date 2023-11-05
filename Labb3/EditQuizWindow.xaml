@@ -1,11 +1,11 @@
-﻿<Window x:Class="Labb3.StartNewQuizWindow"
+﻿<Window x:Class="Labb3.EditQuizWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3"
         mc:Ignorable="d" FontFamily="Gill Sans"
-        Title="StartNewQuizWindow" Height="550" Width="600" Background="Aquamarine">
+        Title="EditQuizWindow" Height="550" Width="600" Background="Aquamarine">
     <Window.Resources>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="LightGray"/>
@@ -60,7 +60,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-
+        
         <TextBlock 
             Grid.Column="1" 
             Grid.Row="1"
@@ -69,98 +69,99 @@
             FontSize="48"
             FontWeight="Bold"
             HorizontalAlignment="Center"/>
-        <Button
-            x:Name="btnPlayRandom"
+        <TextBlock 
             Grid.Column="1"
-            Grid.ColumnSpan="5"
             Grid.Row="2"
-            Width="350"
-            Height="auto"
-            FontSize="24"
-            FontWeight="DemiBold"
-            Content="PLAY RANDOM QUIZ"
-            HorizontalAlignment="Center"
-            Style="{StaticResource RoundedButtonStyle}"
-            Margin="0,20,0,0" Click="btnPlayRandom_Click"/>
-        <TextBlock 
-            Grid.Column="1"
-            Grid.Row="3"
             Grid.ColumnSpan="5"
-            Text="CHOOSE A QUIZ!"
-            FontSize="18"
-            FontWeight="DemiBold"
-            HorizontalAlignment="Center"
-            Margin="0,20,0,0"/>
-        <ComboBox 
-            x:Name="cbbQuizChoose" 
-            Grid.Column="1" 
-            Grid.Row="4" 
-            Grid.ColumnSpan="5"
-            Height="30"
-            Margin="0,10,0,0" 
-            SelectionChanged="cbbQuizChoose_SelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <TextBlock 
-            Grid.Column="1"
-            Grid.Row="5"
-            Grid.ColumnSpan="5"
-            Text="OR CHOOSE BY CATEGORY (YOU CAN CHOOSE MORE THAN ONE)!"
-            FontSize="12"
+            Text="WHICH QUIZ DO YOU LIKE TO EDIT?"
+            FontSize="14"
             FontWeight="DemiBold"
             HorizontalAlignment="Center"
             Margin="0,10,0,0"/>
-
-        <ListBox 
-            x:Name="lbxCategoryChoose" 
+        <ComboBox 
+            x:Name="cbbQuizChoose" 
             Grid.Column="1" 
-            Grid.Row="6" 
+            Grid.Row="3" 
             Grid.ColumnSpan="5"
-            Height="100"
-            SelectionMode="Multiple"
+            Height="25"
             Margin="0,10,0,0" 
-            SelectionChanged="lbxCategoryChoose_SelectionChanged">
+            SelectionChanged="cbbQuizChoose_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock 
+            Grid.Column="1"
+            Grid.Row="4"
+            Grid.ColumnSpan="5"
+            Text="WHICH QUESTION DO YOU LIKE TO EDIT?"
+            FontSize="14"
+            FontWeight="DemiBold"
+            HorizontalAlignment="Center"
+            Margin="0,10,0,0"/>
+        <ListBox
+            x:Name="ListBoxChooseQuestion"
+            Grid.Column="1"
+            Grid.Row="5"
+            Grid.ColumnSpan="5"
+            Grid.RowSpan="3"
+            Height="150" 
+            SelectionMode="Multiple"
+            SelectionChanged="ListBoxChooseQuestion_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" />
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Height="10" FontSize="10" TextWrapping="Wrap" Text="{Binding Statement}"/>
+                        <TextBlock Height="10"  FontSize="10" TextWrapping="Wrap" Text="{Binding Answers[0]}"/>
+                        <TextBlock Height="10"  FontSize="10" TextWrapping="Wrap" Text="{Binding Answers[1]}"/>
+                        <TextBlock Height="10"  FontSize="10" TextWrapping="Wrap" Text="{Binding Answers[2]}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
         <Button
-            x:Name="btnStartQuiz"
+            x:Name="btnDeleteQuestion"
             Grid.Column="1"
-            Grid.ColumnSpan="5"
-            Grid.Row="7"
-            Width="310"
-            Height="auto"
-            FontSize="24"
+            Grid.Row="8"
+            FontSize="14"
             FontWeight="DemiBold"
-            Content="START QUIZ"
-            HorizontalAlignment="Center"
+            Content="DELETE QUESTION"
+            Margin="0,10,0,0" 
             Style="{StaticResource RoundedButtonStyle}"
-            Margin="0,20,0,0" 
-            IsEnabled="False"
-            Click="btnStartQuiz_Click"
-            />
+            Click="btnDeleteQuestion_Click"/>
+        
+        <Button
+            x:Name="btnDeleteQuiz"
+            Grid.Column="5"
+            Grid.Row="8"
+            FontSize="14"
+            FontWeight="DemiBold"
+            Content="DELETE QUIZ"
+            Margin="0,10,0,0"
+            Style="{StaticResource RoundedButtonStyle}" Click="btnDeleteQuiz_Click"/>
+        <Button
+            x:Name="btnSave"
+            Grid.Column="3"
+            Grid.Row="9"
+            FontSize="22"
+            FontWeight="DemiBold"
+            Content="SAVE"
+            Margin="0,10,0,0"
+            Style="{StaticResource RoundedButtonStyle}"/>
         <Button
             x:Name="btnMainMenu"
-            Grid.Column="1"
-            Grid.ColumnSpan="5"
-            Grid.Row="8"
-            Width="310"
-            Height="auto"
-            FontSize="24"
+            Grid.Column="3"
+            Grid.Row="10"
+            FontSize="22"
             FontWeight="DemiBold"
             Content="MAIN MENU"
-            HorizontalAlignment="Center"
+            Margin="0,10,0,0" 
             Style="{StaticResource RoundedButtonStyle}"
-            Margin="0,20,0,0" Click="btnMainMenu_Click"/>
+            Click="btnMainMenu_Click"/>
+
     </Grid>
 </Window>

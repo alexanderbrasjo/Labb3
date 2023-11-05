@@ -26,16 +26,24 @@ namespace Labb3
         
         public MainWindow()
         {
+            //MessageBox.Show(Game.filePath);
+            //MessageBox.Show(Game.projectDir);
             InitializeComponent();
+            Game.Init();
+            Game.Load();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Quiz quiz = new Quiz();
-            quiz.GenerateQuestions();
-            Game.LoadAllQuestions();
+            //quiz.GenerateQuestions();
+            //quiz = Quiz.CreateRandomQuiz();
+            //Game.ReadAllQuestionWithJSON();
         }
 
         private void btnCreateNewQuiz_Click(object sender, RoutedEventArgs e)
         {
             CreateNewQuizWindow createNewQuizWindow = new CreateNewQuizWindow();
             createNewQuizWindow.Show();
+            createNewQuizWindow.Closed += CreateNewQuizWindow_Closed;
+            this.Hide();
         }
 
         private void btnStartNewQuiz_Click(object sender, RoutedEventArgs e)
@@ -47,6 +55,18 @@ namespace Labb3
         private void btnExitGame_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
+        }
+        private void CreateNewQuizWindow_Closed(object sender, EventArgs e)
+        {
+            // Show the MainWindow when the new window is closed
+            this.Show();
+        }
+
+        private void btnEditQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            EditQuizWindow editQuizWindow = new EditQuizWindow();
+            editQuizWindow.Show();
+            
         }
     }
 }

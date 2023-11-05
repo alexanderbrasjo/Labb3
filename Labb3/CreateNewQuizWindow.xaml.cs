@@ -20,15 +20,16 @@ namespace Labb3
     /// </summary>
     public partial class CreateNewQuizWindow : Window
     {
-        //KOLLA PÅ DETTA!
-        Quiz tempQuiz = new Quiz();
+        //Lägger bara till en fråga
+        
+        List<Question> questions = new List<Question>();
         public CreateNewQuizWindow()
         {
             InitializeComponent();
-            
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
-        private void btnSaveQuestion_Click(object sender, RoutedEventArgs e)
+        private void btnCreateQuestion_Click(object sender, RoutedEventArgs e)
         {
             
             int correctAnswer = -1;
@@ -44,7 +45,8 @@ namespace Labb3
                 return;
             }
 
-            tempQuiz = new Quiz(QuizName.Text, CategoryName.Text);
+            
+            
             
 
             if(string.IsNullOrEmpty(CategoryName.Text) || string.IsNullOrEmpty(QuestionStatement.Text) || string.IsNullOrEmpty(Answer1.Text) || string.IsNullOrEmpty(Answer2.Text) || string.IsNullOrEmpty(Answer3.Text))
@@ -65,15 +67,17 @@ namespace Labb3
                 {
                     correctAnswer = 2;
                 }
-                else if(Checkbox1.IsChecked == false && Checkbox2.IsChecked == false && Checkbox3.IsChecked == false)
+                else
                 {
                     MessageBox.Show("Check in the correct answer (You can only check in one box!)");
                     return;
                 }
+                
+                
 
-                Question tempQuestion = new Question(CategoryName.Text, QuestionStatement.Text, new string[3] { Answer1.Text, Answer2.Text, Answer3.Text }, correctAnswer);
+                questions.Add( new Question(CategoryName.Text, QuestionStatement.Text, new string[3] { Answer1.Text, Answer2.Text, Answer3.Text }, correctAnswer));
 
-                tempQuiz.AddQuestion(tempQuestion);
+               
                 MessageBox.Show("Question was created!");
 
                 TextBlockQuizName.Text = "QUIZ NAME:";
@@ -89,85 +93,28 @@ namespace Labb3
 
 
             }
-            //while (isRunning)
-            //{
-            //    if(QuizName.Text == "")
-            //    {
-            //        MessageBox.Show("Please input a Quizname!");
-            //        break;
-            //    }else if (Game.CheckIfQuizExists(QuizName.Text))
-            //    {
-            //        MessageBox.Show("That Quiz name is already used!");
-            //        QuizName.Text = "";
-            //    }
-            //    else if(CategoryName.Text == "")
-            //    {
-            //        MessageBox.Show("Please input a Category!");
-            //        break;
-            //    }else if(QuestionStatement.Text == "")
-            //    {
-            //        MessageBox.Show("Please input your Question!");
-            //        break;
-            //    }else if(Answer1.Text == "")
-            //    {
-            //        MessageBox.Show("Please input Answer1");
-            //        break;
-            //    }
-            //    else if (Answer2.Text == "")
-            //    {
-            //        MessageBox.Show("Please input Answer2");
-            //        break;
-            //    }
-            //    else if (Answer3.Text == "")
-            //    {
-            //        MessageBox.Show("Please input Answer3");
-            //        break;
-            //    }else if (Checkbox1.IsChecked != true && Checkbox2.IsChecked != true && Checkbox3.IsChecked != true)
-            //    {
-            //        MessageBox.Show("Please check in the right answer!");
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        Quiz tempQuiz = new Quiz(QuizName.Text, CategoryName.Text);
-            //        string[] tempAnswers = new string[3] { Answer1.Text, Answer2.Text, Answer3.Text };
-            //        if (Checkbox2.IsChecked == true && Checkbox1.IsChecked == false && Checkbox3.IsChecked == false)
-            //        {
-            //            correctAnswer = 1;
-            //        } 
-            //        else if (Checkbox3.IsChecked == true && Checkbox1.IsChecked == false && Checkbox2.IsChecked == false)
-            //        {
-            //            correctAnswer = 2;
-            //        }
-
-            //        tempQuiz.AddQuestion(QuestionStatement.Text, correctAnswer, tempAnswers);
-            //        activeQuiz = tempQuiz;
-            //        MessageBox.Show("Question created!");
-
-            //        foreach (UIElement element in CreateNewQuizGrid.Children)
-            //        {
-            //            if (element is TextBox)
-            //            {
-            //                ((TextBox)element).Text = string.Empty;
-            //            }
-            //        }
-            //        isRunning = false;
-            //        break;
-            //    }
-
-            //}
-
+            
 
 
             //tempQuiz.AddQuestion(QuestionStatement.Text, )
         }
 
-        private void btnSaveQuiz_Click(object sender, RoutedEventArgs e)
+        private void btnCreateQuiz_Click(object sender, RoutedEventArgs e)
         {
-            
-            Game.listOfQuizes.Add(tempQuiz);
-            MessageBox.Show($"Quiz {tempQuiz.Title} Created!");
-            QuizName.Text = string.Empty;
+            Quiz quiz = new Quiz(QuizName.Text, CategoryName.Text);
+            quiz.Questions = questions;
+
+            if (quiz.Questions.Count > 0)
+            {
+                Game.AddQuiz(quiz);
+                MessageBox.Show($"Quiz {quiz.Title} Created!");
+                QuizName.Text = string.Empty;
+
+            }
+            else
+            {
+                MessageBox.Show("Questions needed, not saved!");
+            }
             // KOLLA PÅ DETTA
             //activeQuiz = new Quiz(QuizName.Text, CategoryName.Text);
 
@@ -185,6 +132,8 @@ namespace Labb3
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            
         }
+        
     }
 }

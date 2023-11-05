@@ -23,8 +23,11 @@ namespace Labb3
         public StartNewQuizWindow()
         {
             InitializeComponent();
-            Quiz tempQuiz = Quiz.CreateRandomQuiz();
-            cbbQuizChoose.ItemsSource = Game.listOfQuizes;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //Quiz tempQuiz = Quiz.CreateRandomQuiz();
+            cbbQuizChoose.ItemsSource = Game.GetAllQuizes();
+            lbxCategoryChoose.ItemsSource = Game.categories;
+            //DataContext = this;
         }
 
         private void btnMainMenu_Click(object sender, RoutedEventArgs e)
@@ -34,26 +37,54 @@ namespace Labb3
         }
         private void cbbQuizChoose_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PlayWindow.activeQuiz = (Quiz)cbbQuizChoose.SelectedItem;
+            lbxCategoryChoose.SelectedItem = null;
+            if (cbbQuizChoose.SelectedItem != null)
+            {
+                btnStartQuiz.IsEnabled = true;
+            }
+            
         }
 
         private void btnStartQuiz_Click(object sender, RoutedEventArgs e)
         {
-            //int chosenQuiz = cbbQuizChoose.
-            //if (cbbQuizChoose.)
-
-            PlayWindow.activeQuiz = (Quiz)cbbQuizChoose.SelectedItem;
-            if(PlayWindow.activeQuiz != null)
+            if(cbbQuizChoose.SelectedItem != null)
             {
-                PlayWindow playWindow = new PlayWindow();
-                playWindow.Show();
-
+                Game.activeQuiz = (Quiz)cbbQuizChoose.SelectedItem;
             }
             else
             {
-                MessageBox.Show("Please choose a quiz");
+                HashSet<string> chosenCategories = new HashSet<string>();
+
+                foreach(var selectedItem in lbxCategoryChoose.SelectedItems)
+                {
+                    chosenCategories.Add((string)selectedItem);
+                }
+                Game.activeQuiz = Quiz.CreateRandomQuizByQuestionCategory(chosenCategories);
             }
+
+            PlayWindow playWindow = new PlayWindow();
+            playWindow.Show();
         }
 
+        private void btnPlayRandom_Click(object sender, RoutedEventArgs e)
+        {
+            PlayWindow playWindow = new PlayWindow();
+            playWindow.Show();
+        }
+
+        private void lbxCategoryChoose_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbbQuizChoose.SelectedItem = null;
+
+            if (lbxCategoryChoose.SelectedItems.Count > 0)
+            {
+                btnStartQuiz.IsEnabled = true;
+            }
+            else
+            {
+                btnStartQuiz.IsEnabled = false;
+            }
+            
+        }
     }
 }
