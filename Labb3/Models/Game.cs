@@ -173,28 +173,7 @@ namespace Labb3.Models
             string json = await File.ReadAllTextAsync(myQuizesFilePath);
             listOfMyQuizes = JsonConvert.DeserializeObject<List<Quiz>>(json);
         }
-        //public async void SaveAllQuestions()
-        //{
-        //    string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        //    string directoryName = "QuizGame";
-
-        //    string fileName = "questions.json";
-
-        //    string directoryFilePath = Path.Combine(directoryPath, directoryName);
-        //    string filePath = Path.Combine(directoryFilePath, fileName);
-
-        //    string json = JsonConvert.SerializeObject(Questions, Newtonsoft.Json.Formatting.Indented);
-
-        //    try
-        //    {
-        //        Directory.CreateDirectory(directoryFilePath);
-        //        await File.WriteAllTextAsync(filePath, json);
-        //    }
-        //    catch (IOException e)
-        //    {
-        //        MessageBox.Show("An error occurred: " + e.Message);
-        //    }
-        //}
+        
 
     }
 }

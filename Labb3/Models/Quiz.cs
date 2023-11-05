@@ -51,47 +51,39 @@ namespace Labb3.Models
                 return null;
             }
         }
-        public Question GetRandomQuestion()
+        public Question? GetRandomQuestion()
         {
-            if(Questions.Count > 0)
+            List<Question> availableQuestions = Game.listOfAllQuestions.ToList();
+            Question randomQuestion;
+
+            if (availableQuestions.Count > 0)
             {
                 Random random = new Random();
-                int randomIndex = random.Next(0, this.Questions.Count);
-                return this.Questions[randomIndex]; 
+                int randomIndex = random.Next(0, availableQuestions.Count);
+                randomQuestion = availableQuestions[randomIndex];
+                return randomQuestion;
             }
             else
             {
-                return new Question("","You answered all questions! Press STOP QUIZ to return", new string[3] { "Very", "Good", "Job" }, 0);
+                return null;
             }
-            //throw new NotImplementedException("A random Question needs to be returned here!");
         }
 
         public void AddQuestion(Question question)
         {
-            //Question tempQuestion = new Question(question.Category, question.Statement, question.Answers, question.CorrectAnswer, question.Image);
             Questions.Add(question);
-            //throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
         }
 
-        public void RemoveAnsweredQuestion(Question question)
-        {
-            if(Questions.Count > 0)
-            {
-                Questions.Remove(question);
-            }
-        }
         public void RemoveQuestion(Question question)
         {
-            //KOLLA PÅ DETTA!!!
             if(Questions.Count > 0)
             {
                 Questions.Remove(question);
             }
             else
             {
-                MessageBox.Show("You answered all questions!");
+                MessageBox.Show("There is no questions to remove");
             }
-            //throw new NotImplementedException("Question at requested index need to be removed here!");
         }
         public static List<Question> GetRandomQuestions(int number)
         {
